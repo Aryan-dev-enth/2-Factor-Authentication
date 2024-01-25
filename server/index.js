@@ -6,7 +6,7 @@ import connectDb from './config/connectdb.js'
 import userRoutes from './routes/userRoutes.js'
 
 const app = express();
-const port = process.env.port;
+const port = process.env.PORT;
 const db_url = process.env.DB_URL;
 
 app.use(express.json());
