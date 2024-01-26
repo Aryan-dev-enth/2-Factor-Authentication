@@ -12,7 +12,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
         },
       });
 
-    const verificationLink = `${process.env.BASE_URL}${process.env.PORT}/api/user/verify?token=${verificationToken}`;
+    const verificationLink = `${process.env.BASE_URL}/api/user/verify?token=${verificationToken}`;
 
     const mailOptions = {
         from: process.env.EMAIL_USER,

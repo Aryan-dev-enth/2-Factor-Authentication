@@ -32,7 +32,7 @@ const Page = () => {
       });
   
       const data = await response.json();
-      console.log(data);
+      alert(data.message);
   
     } catch (error) {
       console.error('Error submitting form:', error);

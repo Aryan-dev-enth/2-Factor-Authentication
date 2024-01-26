@@ -1,9 +1,43 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Button from '@/components/Button';
+import { useRouter } from 'next/navigation';
+
+
 
 const LoginPage = () => {
+  const router= useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const app_url = process.env.NEXT_PUBLIC_APP_URL;
+
+  const handleFormSubmit = async () => {
+
+    try {
+      const response = await fetch(`${app_url}/api/user/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "email": email,
+          "password": password,
+        }),
+      });
+
+      const data = await response.json();
+      alert(data.message);
+      if(data.message == "Email verification required to login")
+      {
+        router.push('/Verification')
+      }
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
+
   return (
     <div className='w-screen h-screen flex justify-center items-center bg-gradient-to-r from-gray-100 to-gray-200'>
       <div className="form w-4/5 sm:w-5/6 md:w-3/4 lg:w-2/3 xl:w-1/2 h-3/4 shadow-2xl rounded-3xl relative flex flex-col lg:flex-row justify-between p-8 bg-white">
@@ -13,12 +47,24 @@ const LoginPage = () => {
         <div className="right lg:w-2/5 bg-white rounded-3xl shadow-2xl p-8">
           <h1 className="text-xl lg:text-2xl font-bold mb-4">Welcome back, login below</h1>
           <p className="text-gray-600 mb-6">Please enter your credentials</p>
-          <input className="w-full p-2 mb-4 border rounded" type="email" placeholder="Email" />
-          <input className="w-full p-2 mb-4 border rounded" type="password" placeholder="Password" />
+          <input
+            className="w-full p-2 mb-4 border rounded"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className="w-full p-2 mb-4 border rounded"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <br />
           <div className='w-full flex flex-col lg:flex-row justify-around items-center'>
             <a className="text-blue-500 text-sm mb-4 lg:mb-0" href="/">Forgot Password?</a>
-            <Button content={'Login'} />
+            <Button content={'Login'} onClick={handleFormSubmit} />
           </div>
           <br />
           <div className="flex items-center mb-6">
