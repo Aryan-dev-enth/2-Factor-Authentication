@@ -132,7 +132,7 @@ class UserController {
 
                             res.json({
                                 "status": true,
-                                "message": "User created successfully",
+                                "message": "User logged in successfully",
                                 "token": token
                             });
                         }
